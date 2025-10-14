@@ -8,7 +8,7 @@ on:
 env:
   ACR_NAME: 'monitoracr12345'           
   IMAGE_NAME: 'energy-monitor-app'
-  AZURE_WEBAPP_NAME_PROD: 'energyproducao'     
+  AZURE_WEBAPP_NAME_PROD: 'energyprodução'     
   AZURE_WEBAPP_NAME_STAGING: 'energy-monitor-staging' 
   RESOURCE_GROUP: 'energy-monitor'              
 
