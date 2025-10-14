@@ -1,4 +1,4 @@
-﻿name: CI/CD Dockerizado - Azure App Services
+name: CI/CD Dockerizado - Azure App Services
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 env:
   ACR_NAME: 'monitoracr12345'           
   IMAGE_NAME: 'energy-monitor-app'
-  AZURE_WEBAPP_NAME_PROD: 'energyprodução'     
+  AZURE_WEBAPP_NAME_PROD: 'energyprodução'    
   AZURE_WEBAPP_NAME_STAGING: 'energy-monitor-staging' 
   RESOURCE_GROUP: 'energy-monitor'              
 
@@ -29,14 +29,12 @@ jobs:
         with:
           login-server: ${{ env.ACR_NAME }}.azurecr.io
           username: ${{ env.ACR_NAME }}
-          password: ${{ secrets.ACR_PASSWORD }}  
+          password: ${{ secrets.ACR_PASSWORD }}    # ← USA A SECRET CORRETA!
 
       - name: Build e Push Docker
         run: |
           cd Web.Service.Cap7
-          # Build com tag latest
-          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
-          # Push da imagem
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest .
           docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
 
   deploy-staging:
