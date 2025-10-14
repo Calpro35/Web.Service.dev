@@ -1,0 +1,29 @@
+name: CI/CD Teste (Build Básico)
+
+on:
+  push:
+    branches: [ dev, main ]
+  workflow_dispatch:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Verificar Estrutura
+        run: |
+          echo "📁 Estrutura do projeto:"
+          ls -la
+          echo "--- Web.Service.Cap7 ---"
+          ls -la Web.Service.Cap7/
+          
+      - name: Build Docker
+        run: |
+          cd Web.Service.Cap7
+          docker build -t energy-monitor-test .
+          echo "✅ Build Docker realizado com sucesso!"
+          
+      - name: Finalização
+        run: echo "🎉 Pipeline executado com sucesso!"

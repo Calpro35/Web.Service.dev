@@ -1,0 +1,27 @@
+# Est�gio 1: Build da Aplica��o
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copia e restaura a solu��o e os projetos
+COPY *.sln .
+COPY ["Web.Service.Cap7/Web.Service.Cap7.csproj", "Web.Service.Cap7/"]
+COPY ["Web.Service.Cap7.Test/Web.Service.Cap7.Test.csproj", "Web.Service.Cap7.Test/"]
+
+RUN dotnet restore
+
+# Copia o restante do c�digo
+COPY . .
+
+# REQUISITO: TESTES AUTOMATIZADOS (Executado no build)
+WORKDIR /src/Web.Service.Cap7.Test
+RUN dotnet test
+
+WORKDIR /src/Web.Service.Cap7
+RUN dotnet publish -c Release -o /app/publish
+
+# Est�gio 2: Imagem de Execu��o
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+EXPOSE 8080
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "Web.Service.Cap7.dll"]

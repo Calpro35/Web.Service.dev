@@ -1,0 +1,72 @@
+type: collection.insomnia.rest/5.0
+name: Requisições
+meta:
+  id: wrk_4c37dd106a754f3ab74130932e8f7eab
+  created: 1749215011066
+  modified: 1749215011066
+collection:
+  - url: https://localhost:32771/api/auth/login
+    name: Autenticação
+    meta:
+      id: req_911f13e066f946a6b2272145020e6395
+      created: 1749215014318
+      modified: 1749215044263
+      isPrivate: false
+      sortKey: -1749215014318
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username" : "operador01",
+        	"password" : "pass123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: https://localhost:32771/api/v1/sector
+    name: Listar Setores
+    meta:
+      id: req_738df1202ccd4a04928dacb9eb40182c
+      created: 1749764012412
+      modified: 1749767258839
+      isPrivate: false
+      sortKey: -1749764012413
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.0.2
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im9wZXJhZG9yMDEiLCJyb2xlIjoib3BlcmFkb3IiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9oYXNoIjoiODlkNGYzMTQtNGNjOC00NDQzLTliZDMtNzAxOGMzYTFiOTY0IiwibmJmIjoxNzQ5NzY3MjUwLCJleHAiOjE3NDk3Njc1NTAsImlhdCI6MTc0OTc2NzI1MCwiaXNzIjoiZmlhcCJ9.3hjmgYZBtBMJfL45ibLgTeOOd5yAuZJdPZu3uo2fB8w
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_1cfb7297c0fa98337a05d0081b9e575a90a64704
+    created: 1749215011071
+    modified: 1749215011071
+environments:
+  name: Base Environment
+  meta:
+    id: env_1cfb7297c0fa98337a05d0081b9e575a90a64704
+    created: 1749215011068
+    modified: 1749215011068
+    isPrivate: false

@@ -1,0 +1,74 @@
+﻿name: CI/CD Dockerizado - Azure App Services
+
+on:
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+
+env:
+  ACR_NAME: 'monitoracr12345'           
+  IMAGE_NAME: 'energy-monitor-app'
+  AZURE_WEBAPP_NAME_PROD: 'energy-monitor'      # ← CONFIRMAR NOME
+  AZURE_WEBAPP_NAME_STAGING: 'energy-monitor-staging' # ← CONFIRMAR NOME
+  RESOURCE_GROUP: 'energy-monitor'               # ← CONFIRMAR NOME
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}  # ← JÁ EXISTE
+          
+      - name: Login no ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.ACR_NAME }}.azurecr.io
+          username: ${{ env.ACR_NAME }}
+          password: ${{ secrets.ACR_PASSWORD }}    # ← NOVO SECRET!
+
+      - name: Build e Push Docker
+        run: |
+          cd Web.Service.Cap7
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy-staging:
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy para Staging
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_STAGING }}
+          images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy-production:
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy para Produção
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_PROD }}
+          images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
