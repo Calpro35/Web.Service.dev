@@ -1,4 +1,4 @@
-name: CI/CD Dockerizado - Azure App Services
+name: CI/CD Dockerizado - TESTE AMBOS
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 env:
   ACR_NAME: 'monitoracr12345'           
   IMAGE_NAME: 'energy-monitor-app'
-  AZURE_WEBAPP_NAME_PROD: 'energyprodução'    
+  AZURE_WEBAPP_NAME_PROD: 'energyprodução'     
   AZURE_WEBAPP_NAME_STAGING: 'energy-monitor-staging' 
   RESOURCE_GROUP: 'energy-monitor'              
 
@@ -29,7 +29,7 @@ jobs:
         with:
           login-server: ${{ env.ACR_NAME }}.azurecr.io
           username: ${{ env.ACR_NAME }}
-          password: ${{ secrets.ACR_PASSWORD }}    # ← USA A SECRET CORRETA!
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build e Push Docker
         run: |
@@ -39,7 +39,6 @@ jobs:
 
   deploy-staging:
     needs: [build-and-push]
-    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     environment: staging
 
@@ -57,7 +56,6 @@ jobs:
 
   deploy-production:
     needs: [build-and-push]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
 
