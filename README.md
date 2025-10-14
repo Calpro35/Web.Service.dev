@@ -69,19 +69,19 @@ App Service Production: energy-monitor-prod
 Resource Group: ESG-RG
 
 
-🔧 Configuração do CI/CD
-Workflow GitHub Actions:
-yaml
-name: 🚀 CI/CD Dockerizado - Azure App Services
-on:
-  push:
-    branches: [dev, main]
-  workflow_dispatch:
+🔧 Configuração do CI/CD<br>
+Workflow GitHub Actions:<br>
+yaml<br>
+name: 🚀 CI/CD Dockerizado - Azure App Services<br>
+on:<br>
+  push:<br>
+    branches: [dev, main]<br>
+  workflow_dispatch:<br>
 
-jobs:
-  build-and-push:    # Build e push para ACR
-  deploy-staging:    # Deploy automático para staging (branch dev)
-  deploy-production: # Deploy manual para produção (branch main)
+jobs:<br>
+  build-and-push:    # Build e push para ACR<br>
+  deploy-staging:    # Deploy automático para staging (branch dev)<br>
+  deploy-production: # Deploy manual para produção (branch main)<br>
 
 🐳 Containerização
 Dockerfile
