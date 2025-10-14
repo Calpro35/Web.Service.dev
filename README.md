@@ -69,7 +69,7 @@ App Service Production: energy-monitor-prod
 Resource Group: ESG-RG
 
 
-🔧 Configuração do CI/CD<br>
+<strong>🔧 Configuração do CI/CD</strong><br>
 Workflow GitHub Actions:<br>
 yaml<br>
 name: 🚀 CI/CD Dockerizado - Azure App Services<br>
@@ -83,68 +83,68 @@ jobs:<br>
   deploy-staging:    # Deploy automático para staging (branch dev)<br>
   deploy-production: # Deploy manual para produção (branch main)<br>
 
-🐳 Containerização
-Dockerfile
-dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+<strong>🐳 Containerização</strong><br>
+Dockerfile<br>
+dockerfile<br>
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base<br>
+USER app<br>
+WORKDIR /app<br>
+EXPOSE 80<br>
+EXPOSE 443<br>
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
-COPY ["Web.Service.Cap7.csproj", "."]
-RUN dotnet restore "Web.Service.Cap7.csproj"
-COPY . .
-RUN dotnet build "Web.Service.Cap7.csproj" -c Release -o /app/build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build<br>
+WORKDIR /src<br>
+COPY ["Web.Service.Cap7.csproj", "."]<br>
+RUN dotnet restore "Web.Service.Cap7.csproj"<br>
+COPY . .<br>
+RUN dotnet build "Web.Service.Cap7.csproj" -c Release -o /app/build<br>
 
-FROM build AS publish
-RUN dotnet publish "Web.Service.Cap7.csproj" -c Release -o /app/publish /p:UseAppHost=false
+FROM build AS publish<br>
+RUN dotnet publish "Web.Service.Cap7.csproj" -c Release -o /app/publish /p:UseAppHost=false<br>
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Web.Service.Cap7.dll"]
-Docker Compose
-yaml
-services:
-  webapi:
-    build: .
-    container_name: energy-monitor-app
-    ports:
-      - "5000:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Database=esg_db;Username=postgres;Password=postgres123;
-    depends_on:
-      - db
+FROM base AS final<br>
+WORKDIR /app<br>
+COPY --from=publish /app/publish .<br>
+ENTRYPOINT ["dotnet", "Web.Service.Cap7.dll"]<br>
+Docker Compose<br>
+yaml<br>
+services:<br>
+  webapi:<br>
+    build: .<br>
+    container_name: energy-monitor-app<br>
+    ports:<br>
+      - "5000:80"<br>
+    environment:<br>
+      - ASPNETCORE_ENVIRONMENT=Development<br>
+      - ConnectionStrings__DefaultConnection=Host=db;Database=esg_db;Username=postgres;Password=postgres123;<br>
+    depends_on:<br>
+      - db<br>
 
-  db:
-    image: postgres:14-alpine
-    container_name: energy-monitor-db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
-      POSTGRES_DB: esg_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+  db:<br>
+    image: postgres:14-alpine<br>
+    container_name: energy-monitor-db<br>
+    environment:<br>
+      POSTGRES_USER: postgres<br>
+      POSTGRES_PASSWORD: postgres123<br>
+      POSTGRES_DB: esg_db<br>
+    ports:<br>
+      - "5432:5432"<br>
+    volumes:<br>
+      - postgres-data:/var/lib/postgresql/data<br>
 
 <h2>📸 Evidências de Funcionamento</h2></br>
 
 ✅ Pipeline CI/CD Executado com Sucesso<br>
 https://github.com/AlvaroNrs/Web.Service.Cap7/blob/dev/images/build_sucess.jpeg<br>
-Workflow executando com sucesso no GitHub Actions
+Workflow executando com sucesso no GitHub Actions<br>
 
 ✅ Build Docker Funcionando/<br>
 https://github.com/AlvaroNrs/Web.Service.Cap7/blob/dev/images/build_log.jpeg.</br>
-Logs mostrando build Docker e .NET bem-sucedidos
+Logs mostrando build Docker e .NET bem-sucedidos<br>
 
 ✅ Containerização<br>
 https://github.com/AlvaroNrs/Web.Service.Cap7/blob/dev/images/docker_image.png</br>
-Imagem Docker construída e funcionando localmente
+Imagem Docker construída e funcionando localmente<br>
 
 
 ✅ Produção: <br>
@@ -179,19 +179,19 @@ Unit of Work</br>
 
 <h2>Checklist de Entrega</br></h2>
 
-✅ Implementado e Funcionando:</br>
+Implementado e Funcionando:</br>
 
-- [x] Projeto compactado em .ZIP com estrutura organizada</br>
-- [x] Dockerfile funcional</br>
-- [x] docker-compose.yml para orquestração</br>
-- [x] Pipeline CI/CD com GitHub Actions</br>
-- [x] README.md com instruções completas</br>
-- [x] Documentação técnica com evidências</br>
-- [x] Deploy CONFIGURADO para Staging e Production</br>
-- [x] Pipeline executado com SUCESSO no GitHub Actions</br>
-- [x] Estratégia de branches (dev → staging, main → production)</br>
-- [x] Multi-ambiente configurado</br>
-- [x] Integração Azure configurada</br>
+- ✅ Projeto compactado em .ZIP com estrutura organizada</br>
+- ✅ Dockerfile funcional</br>
+- ✅ docker-compose.yml para orquestração</br>
+- ✅ Pipeline CI/CD com GitHub Actions</br>
+- ✅ README.md com instruções completas</br>
+- ✅ Documentação técnica com evidências</br>
+- ✅ Deploy CONFIGURADO para Staging e Production</br>
+- ✅ Pipeline executado com SUCESSO no GitHub Actions</br>
+- ✅ Estratégia de branches (dev → staging, main → production) teste Ambas</br>
+- ✅ Multi-ambiente configurado</br>
+- ✅ Integração Azure configurada</br>
 
 
 Infraestrutura: Microsoft Azure + GitHub Actions</br>
