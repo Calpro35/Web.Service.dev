@@ -327,17 +327,4 @@ services:
 - [x] Multi-ambiente configurado
 - [x] Integração Azure configurada
 
-## 🚀 Configuração Recomendada
-
-### Para Completar o Deploy:
-1. **Configurar secrets** no GitHub:
-   - `AZURE_CREDENTIALS`
-   - `ACR_PASSWORD`
-
-2. **Executar pipeline**:
-   ```bash
-   git push origin dev    # Deploy para Staging
-   git push origin main   # Deploy para Production
-
-
 Infraestrutura: Microsoft Azure + GitHub Actions
